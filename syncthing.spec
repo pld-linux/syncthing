@@ -41,8 +41,11 @@ go run build.go -version "v%{version}" -no-upgrade
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -p bin/syncthing $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man{1,5,7}}
+install -p bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -p man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p man/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
+cp -p man/*.7 $RPM_BUILD_ROOT%{_mandir}/man7
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -50,4 +53,32 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.md AUTHORS CONTRIBUTING.md
+%attr(755,root,root) %{_bindir}/discosrv
+%attr(755,root,root) %{_bindir}/relaysrv
+%attr(755,root,root) %{_bindir}/stbench
+%attr(755,root,root) %{_bindir}/stcompdirs
+%attr(755,root,root) %{_bindir}/stdisco
+%attr(755,root,root) %{_bindir}/stevents
+%attr(755,root,root) %{_bindir}/stfileinfo
+%attr(755,root,root) %{_bindir}/stfinddevice
+%attr(755,root,root) %{_bindir}/stgenfiles
+%attr(755,root,root) %{_bindir}/stindex
+%attr(755,root,root) %{_bindir}/stsigtool
+%attr(755,root,root) %{_bindir}/stvanity
+%attr(755,root,root) %{_bindir}/stwatchfile
 %attr(755,root,root) %{_bindir}/syncthing
+%attr(755,root,root) %{_bindir}/testutil
+%{_mandir}/man1/syncthing.1*
+%{_mandir}/man5/syncthing-config.5*
+%{_mandir}/man5/syncthing-stignore.5*
+%{_mandir}/man7/syncthing-bep.7*
+%{_mandir}/man7/syncthing-device-ids.7*
+%{_mandir}/man7/syncthing-event-api.7*
+%{_mandir}/man7/syncthing-faq.7*
+%{_mandir}/man7/syncthing-globaldisco.7*
+%{_mandir}/man7/syncthing-localdisco.7*
+%{_mandir}/man7/syncthing-networking.7*
+%{_mandir}/man7/syncthing-relay.7*
+%{_mandir}/man7/syncthing-rest-api.7*
+%{_mandir}/man7/syncthing-security.7*
+%{_mandir}/man7/syncthing-versioning.7*

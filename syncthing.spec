@@ -5,14 +5,14 @@
 
 Summary:	Open Source Continuous File Synchronization
 Name:		syncthing
-Version:	0.13.7
-Release:	0.1
+Version:	0.14.7
+Release:	1
 License:	MPL-2.0
 Group:		Applications/Networking
 Source0:	https://github.com/syncthing/syncthing/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	9a94fa95428d4191f61eed834a8161be
+# Source0-md5:	761a57eaeb8438e08fc1a46b12d6bc2b
 URL:		https://syncthing.net/
-BuildRequires:	golang >= 1.3.1
+BuildRequires:	golang >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_enable_debug_packages 0
@@ -53,21 +53,24 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.md AUTHORS CONTRIBUTING.md
-%attr(755,root,root) %{_bindir}/discosrv
-%attr(755,root,root) %{_bindir}/relaysrv
 %attr(755,root,root) %{_bindir}/stbench
 %attr(755,root,root) %{_bindir}/stcompdirs
 %attr(755,root,root) %{_bindir}/stdisco
+%attr(755,root,root) %{_bindir}/stdiscosrv
 %attr(755,root,root) %{_bindir}/stevents
 %attr(755,root,root) %{_bindir}/stfileinfo
 %attr(755,root,root) %{_bindir}/stfinddevice
 %attr(755,root,root) %{_bindir}/stgenfiles
 %attr(755,root,root) %{_bindir}/stindex
+%attr(755,root,root) %{_bindir}/strelaypoolsrv
+%attr(755,root,root) %{_bindir}/strelaysrv
 %attr(755,root,root) %{_bindir}/stsigtool
 %attr(755,root,root) %{_bindir}/stvanity
 %attr(755,root,root) %{_bindir}/stwatchfile
 %attr(755,root,root) %{_bindir}/syncthing
 %attr(755,root,root) %{_bindir}/testutil
+%{_mandir}/man1/stdiscosrv.1*
+%{_mandir}/man1/strelaysrv.1*
 %{_mandir}/man1/syncthing.1*
 %{_mandir}/man5/syncthing-config.5*
 %{_mandir}/man5/syncthing-stignore.5*

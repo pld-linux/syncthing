@@ -5,14 +5,19 @@
 
 Summary:	Open Source Continuous File Synchronization
 Name:		syncthing
-Version:	0.14.7
+Version:	1.9.0
 Release:	1
-License:	MPL-2.0
+# syncthing (MPLv2.0) bundles
+# - angular, bootstrap, daterangepicker, fancytree, jQuery, moment (MIT),
+# - ForkAwesome (MIT and OFL and CC-BY 3.0), and
+# - a number of go packages (MIT and MPLv2.0 and BSD and ASL 2.0 and CC0 and ISC)
+License:	MPLv2.0 and MIT and OFL and CC-BY and BSD and ASL 2.0 and CC0 and ISC
 Group:		Applications/Networking
-Source0:	https://github.com/syncthing/syncthing/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	761a57eaeb8438e08fc1a46b12d6bc2b
+# Use official release tarball (contains vendored dependencies)
+Source0:	https://github.com/syncthing/syncthing/releases/download/v%{version}/%{name}-source-v%{version}.tar.gz
+# Source0-md5:	de188d86224e83d537c2a66f2f2dea71
 URL:		https://syncthing.net/
-BuildRequires:	golang >= 1.5
+BuildRequires:	golang >= 1.14
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_enable_debug_packages 0
@@ -27,21 +32,24 @@ you deserve to choose where it is stored, if it is shared with some
 third party and how it's transmitted over the Internet.
 
 %prep
-%setup -q
+%setup -qc
 
-GOPATH=$(pwd)/src
-install -d $(dirname $GOPATH/%{import_path})
-ln -s ../../.. $GOPATH/%{import_path}
-ln -s .. vendor/src
+install -d build/src/$(dirname %{import_path})
+mv %{name}/{AUTHORS,*.md} .
+mv %{name} build/src/%{import_path}
 
 %build
-export GOPATH=$(pwd)
-cd src/%{import_path}
-go run build.go -version "v%{version}" -no-upgrade
+export GOPATH=$(pwd)/build
+cd build/src/%{import_path}
+
+go run build.go -version "v%{version}" -no-upgrade build
+go run build.go -version "v%{version}" -no-upgrade install
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man{1,5,7}}
+
+cd build/src/%{import_path}
 install -p bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -p man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -p man/*.5 $RPM_BUILD_ROOT%{_mandir}/man5
@@ -53,22 +61,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.md AUTHORS CONTRIBUTING.md
-%attr(755,root,root) %{_bindir}/stbench
-%attr(755,root,root) %{_bindir}/stcompdirs
-%attr(755,root,root) %{_bindir}/stdisco
-%attr(755,root,root) %{_bindir}/stdiscosrv
-%attr(755,root,root) %{_bindir}/stevents
-%attr(755,root,root) %{_bindir}/stfileinfo
-%attr(755,root,root) %{_bindir}/stfinddevice
-%attr(755,root,root) %{_bindir}/stgenfiles
-%attr(755,root,root) %{_bindir}/stindex
-%attr(755,root,root) %{_bindir}/strelaypoolsrv
-%attr(755,root,root) %{_bindir}/strelaysrv
-%attr(755,root,root) %{_bindir}/stsigtool
-%attr(755,root,root) %{_bindir}/stvanity
-%attr(755,root,root) %{_bindir}/stwatchfile
 %attr(755,root,root) %{_bindir}/syncthing
-%attr(755,root,root) %{_bindir}/testutil
 %{_mandir}/man1/stdiscosrv.1*
 %{_mandir}/man1/strelaysrv.1*
 %{_mandir}/man1/syncthing.1*

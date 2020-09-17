@@ -18,6 +18,7 @@ Source0:	https://github.com/syncthing/syncthing/releases/download/v%{version}/%{
 # Source0-md5:	de188d86224e83d537c2a66f2f2dea71
 URL:		https://syncthing.net/
 BuildRequires:	golang >= 1.14
+ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 mips64 mips64le ppc64 ppc64le s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_enable_debug_packages 0

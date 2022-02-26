@@ -5,7 +5,7 @@
 
 Summary:	Open Source Continuous File Synchronization
 Name:		syncthing
-Version:	1.18.2
+Version:	1.19.0
 Release:	1
 # syncthing (MPLv2.0) bundles
 # - angular, bootstrap, daterangepicker, fancytree, jQuery, moment (MIT),
@@ -16,7 +16,7 @@ Group:		Applications/Networking
 # Use official release tarball (contains vendored dependencies)
 # https://github.com/syncthing/syncthing/releases/
 Source0:	https://github.com/syncthing/syncthing/releases/download/v%{version}/%{name}-source-v%{version}.tar.gz
-# Source0-md5:	548bb88c315c48fd2e4341f947e3e244
+# Source0-md5:	bef55390d403210ae58dd3600cda5d02
 URL:		https://syncthing.net/
 BuildRequires:	golang >= 1.14
 ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 mips64 mips64le ppc64 ppc64le s390x
